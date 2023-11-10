@@ -1,39 +1,42 @@
 namespace UnitConversion.Model;
 
-public class UnitOfMeasureManager
+/// <summary>
+/// Singleton class to contain all available unit type definitions.
+/// </summary>
+internal class UnitOfMeasureManager
 {
     private static readonly Lazy<UnitOfMeasureManager> lazy = new(() => new UnitOfMeasureManager());
 
     public static UnitOfMeasureManager Instance => lazy.Value;
 
-    internal readonly Dictionary<string, Quantity> Quantities = new();
+    internal readonly Dictionary<string, UnitTypeDefinition> UnitTypeDefinitions = new();
 
     public UnitOfMeasureManager()
     {
-        var type = typeof(IQuantityProvider);
+        var type = typeof(IUnitTypeDefinitionProvider);
         var providers = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
             .Where(t => type.IsAssignableFrom(t) && !t.IsInterface);
 
         foreach (var providerType in providers)
         {
-            var provider = (IQuantityProvider)Activator.CreateInstance(providerType)!;
-            RegisterQuantity(provider.Get());
+            var provider = (IUnitTypeDefinitionProvider)Activator.CreateInstance(providerType)!;
+            RegisterUnitTypeDefinition(provider.Get());
         }
     }
 
-    private void RegisterQuantity(Quantity quantity)
+    private void RegisterUnitTypeDefinition(UnitTypeDefinition unitTypeDefinition)
     {
-        Quantities.Add(quantity.Name, quantity);
+        UnitTypeDefinitions.Add(unitTypeDefinition.Name, unitTypeDefinition);
     }
 
-    internal Quantity GetQuantity(string quantityName)
+    internal UnitTypeDefinition GetUnitTypeDefinition(string definitionName)
     {
-        if (Quantities.TryGetValue(quantityName, out var quantity))
+        if (UnitTypeDefinitions.TryGetValue(definitionName, out var definition))
         {
-            return quantity;
+            return definition;
         }
 
-        throw new Exception($"Unspecified quantity type: {quantityName}");
+        throw new Exception($"Unspecified unit type: {definitionName}");
     }
 }

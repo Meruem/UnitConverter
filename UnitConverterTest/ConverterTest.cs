@@ -28,6 +28,6 @@ public class ConverterTest
     {
         var result = UnitConverter.ConvertToUnit(input);
         Assert.That(result.Value, Is.EqualTo(expectedValue));
-        Assert.That(result.UnitType, Is.EqualTo(expectedUnitType));
+        Assert.That(result.Unit, Is.EqualTo(expectedUnitType));
     }
 }

@@ -1,5 +1,5 @@
 using UnitConversion.Model;
-using UnitConversion.Quantities;
+using UnitConversion.UnitTypes;
 
 namespace UnitConversionTest;
 

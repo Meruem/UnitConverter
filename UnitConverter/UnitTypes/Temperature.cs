@@ -1,6 +1,6 @@
 using UnitConversion.Model;
 
-namespace UnitConversion.Quantities;
+namespace UnitConversion.UnitTypes;
 
 public enum Temperature
 {
@@ -8,9 +8,9 @@ public enum Temperature
     Fahrenheit,
 }
 
-internal class TemperatureQuantity  : IQuantityProvider
+internal class TemperatureUnitTypeDefinition  : IUnitTypeDefinitionProvider
 {
-    public Quantity Get() => Quantity.Create(Temperature.Celsius)
+    public UnitTypeDefinition Get() => UnitTypeDefinition.Create(Temperature.Celsius)
         .WithConversion(Temperature.Fahrenheit, x => (x - 32m) * (5m / 9m),
             x => (9m / 5m) * x + 32)
         .WithParserRule(Temperature.Celsius, "celsius")

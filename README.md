@@ -1,5 +1,5 @@
 # UnitConverter
-Library for conversion between different units of the same quantity. For example allows to convert between meters and inches, 
+Library for conversion between different units of the same unit type. For example allows to convert between meters and inches, 
 temperature in celsius to fahrenheit.
 
 ### Usage
@@ -33,15 +33,15 @@ In order to support additional unit types, following steps need to be implemente
          Inch
       }
     ```
-2) Create a quantity provider implementing the IQuantityProvider and specify
+2) Create a unit type definition provider implementing the IUnitTypeDefinitionProvider and specify
 - Base unit
 - Conversion methods to and from the base unit for every unit in the enumeration
 - Parsing rules how to convert string token into unit
 
    ```csharp
-   internal class LengthQuantity : IQuantityProvider
+   internal class LengthUnitTypeDefinition : IUnitTypeDefinitionProvider
    {
-       public Quantity Get() => Quantity.Create(Length.Meter) // base unit
+       public UnitTypeDefinition Get() => UnitTypeDefinition.Create(Length.Meter) // base unit
            .WithConversion(Length.Feet, x => x * 0.3048m, x => x / 0.3048m) // how to convert feet->meter and meter->feet
            .WithConversion(Length.Inch, x => x * 0.0254m, x => x / 0.0254m)
            .WithParserRule(Length.Feet, "feet", "foot")

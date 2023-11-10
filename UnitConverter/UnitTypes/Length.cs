@@ -1,6 +1,6 @@
 ﻿using UnitConversion.Model;
 
-namespace UnitConversion.Quantities;
+namespace UnitConversion.UnitTypes;
 
 public enum Length
 {
@@ -9,9 +9,9 @@ public enum Length
     Inch
 }
 
-internal class LengthQuantity : IQuantityProvider
+internal class LengthUnitTypeDefinition : IUnitTypeDefinitionProvider
 {
-    public Quantity Get() => Quantity.Create(Length.Meter)
+    public UnitTypeDefinition Get() => UnitTypeDefinition.Create(Length.Meter)
         .WithConversion(Length.Feet, x => x * 0.3048m, x => x / 0.3048m)
         .WithConversion(Length.Inch, x => x * 0.0254m, x => x / 0.0254m)
         .WithParserRule(Length.Feet, "feet", "foot")
